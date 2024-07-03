@@ -1,3 +1,10 @@
+안녕하세요, 저는 백엔드 개발자 강민재입니다.
+ 저는 Spring Boot와 Java를 활용한 웹 백엔드 개발에 7년 이상의 경력을 가지고 있습니다. 
+ 최근에는 Kotlin과 AWS 환경에서 실시간 강의 사이트 개발 프로젝트를 성공적으로 수행했습니다. 
+ Azure와 Kubernetes를 활용한 MSA 구축 경험도 풍부하며, MySQL, MSSQL, Redis 등 다양한 데이터베이스와 캐시 시스템을 다뤄본 경험이 있습니다. 저는 특히 가독성 있는 코드를 작성하고, 협업과 소통을 통해 더 나은 해결책을 찾는 것을 중요하게 생각합니다. 
+ 또한, 자동화와 클라우드 기반의 개발 환경에 익숙하며, 지속적인 학습과 성장에 열정을 가지고 있습니다. 
+ 앞으로도 새로운 도전에 적극적으로 임하며, 더 나은 개발 문화를 만들어가고자 합니다. 감사합니다.
+
 임시. 트랜잭션 격리 수준
 - Read Uncommiteed : 커밋 되지 않은 데이터 읽기 가능 
 - Read Committed : 커밋된 데이터만 읽을 수 읽기 가능
@@ -24,3 +31,6 @@
 
 5. 스프링 MVC의 동작 방식
 - 클라이언트의 요청을 DispatcherServlet이 받아서 HandlerMapping을 통해 적절한 컨트롤러를 찾고, HandlerAdapter를 통해 컨트롤러를 실행한다.
+
+6. @Controller 와 @RestController 의 차이
+- @RestController 를 사용하면 @ResponseBody를 생략할 수 있다.
