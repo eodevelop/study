@@ -92,7 +92,22 @@
     - volatile 키워드
         - CPU 캐시가 아닌 메인 메모리에 직접 읽고 쓰여지게 하여, 여러 스레드에 의해 읽고 쓰여지는 변수의 일관성을 보장합니다.
     - synchronized 블록과 ReentrantLock의 차이점
+        - synchronized 블록은 JVM에 의해 제공되는 키워드로, 자동으로 lock을 획득하고 해제합니다. 반면 ReentrantLock은 java.util.concurrent 패키지에 있는 클래스로, lock을 직접 획득하고 해제해야 합니다. ReentrantLock은 더 세밀한 제어가 가능하고, 조건 변수를 사용할 수 있습니다.
+    </details>
+    <br/>
+    <br/>
 
+
+
+    <details>
+    <summary>여기를 클릭하면 답변을 볼 수 있습니다</summary>
+    </details>
+    <br/>
+    <br/>
+
+
+    <details>
+    <summary>여기를 클릭하면 답변을 볼 수 있습니다</summary>
     </details>
     <br/>
     <br/>
