@@ -33,69 +33,72 @@
     ```
     - 비밀번호 입력창이 나오면 기본 비밀번호인 vagrant 입력
     - `ssh vagrant@172.18.8.10x` 명령으로 비밀번호 없이 진입 가능한지 확인
-    - apt를 통해서 필요한 프로그램들 설치
-    ```bash
-    sudo apt update
-    sudo apt install -y python3-pip  python3-venv
-    ```
-    - 이후 아래 명령으로 가상 환경 진입
-    ``` bash
-    python3 -m venv venv
-    source venv/bin/activate
-    cd kubespray
-    ```
-    - pip로 필요 모둘 설치
-    ``` bash
-    pip install -r requirements.txt
-    pip install ruamel.yaml
-    ```
-    - 아래 명령으로 hosts.yaml 및 inventory 생성
-    ```bash
-    cp -rfp inventory/sample inventory/mycluster
-    declare -a IPS=(172.18.8.101 172.18.8.102 172.18.8.103) # 각 VM의 IP 주소
-    CONFIG_FILE=inventory/mycluster/hosts.yaml python3 contrib/inventory_builder/inventory.py ${IPS[@]}
-    ``` 
-    - 생성된 hosts.yaml 파일의 구성(master, worker등) 변경
-    ```yaml
-    all:
+- apt를 통해서 필요한 프로그램들 설치
+```bash
+sudo apt update
+sudo apt install -y python3-pip  python3-venv
+```
+- 이후 아래 명령으로 가상 환경 진입
+``` bash
+python3 -m venv venv
+source venv/bin/activate
+cd kubespray
+```
+- pip로 필요 모둘 설치
+``` bash
+pip install -r requirements.txt
+pip install ruamel.yaml
+```
+- 아래 명령으로 hosts.yaml 및 inventory 생성
+```bash
+cp -rfp inventory/sample inventory/mycluster
+declare -a IPS=(172.18.8.101 172.18.8.102 172.18.8.103) # 각 VM의 IP 주소
+CONFIG_FILE=inventory/mycluster/hosts.yaml python3 contrib/inventory_builder/inventory.py ${IPS[@]}
+``` 
+- 생성된 hosts.yaml 파일의 구성(master, worker등) 변경
+```yaml
+all:
+    hosts:
+        ndeclare -a IPS=(172.18.8.101 172.18.8.102 172.18.8.103)declare -a IPS=(172.18.8.101 172.18.8.102 172.18.8.103)ode1:
+        ansible_host: 172.18.8.101
+        ip: 172.18.8.101
+        access_ip: 172.18.8.101
+        node2:
+        ansible_host: 172.18.8.102
+        ip: 172.18.8.102
+        access_ip: 172.18.8.102
+        node3:
+        ansible_host: 172.18.8.103
+        ip: 172.18.8.103
+        access_ip: 172.18.8.103
+    children:
+        kube_control_plane:
         hosts:
-            ndeclare -a IPS=(172.18.8.101 172.18.8.102 172.18.8.103)declare -a IPS=(172.18.8.101 172.18.8.102 172.18.8.103)ode1:
-            ansible_host: 172.18.8.101
-            ip: 172.18.8.101
-            access_ip: 172.18.8.101
+            node1:
+        kube_node:
+        hosts:
             node2:
-            ansible_host: 172.18.8.102
-            ip: 172.18.8.102
-            access_ip: 172.18.8.102
             node3:
-            ansible_host: 172.18.8.103
-            ip: 172.18.8.103
-            access_ip: 172.18.8.103
+        etcd:
+        hosts:
+            node1:
+        k8s_cluster:
         children:
             kube_control_plane:
-            hosts:
-                node1:
             kube_node:
-            hosts:
-                node2:
-                node3:
-            etcd:
-            hosts:
-                node1:
-            k8s_cluster:
-            children:
-                kube_control_plane:
-                kube_node:
-            calico_rr:
-            hosts: {}
-    ```
-    - helm 사용 예정이므로 `inventory/mycluster/group_vars/k8s_cluster/addons.yml` 파일 설정하여 helm 자동 설치되도록 변경
-        - helm_enabled: true 
-        - 위처럼 값 바꿔줄것
-    - `ansible-playbook -i inventory/mycluster/hosts.yaml cluster.yml -b -v` 명령으로 kubespray를 통환 쿠버네티스 클러스터 환경 구축 시작
-    - 아래명령으로 kubectl 명령 사용가능 하도록 변경
-    ``` bash
-    mkdir -p $HOME/.kube
-    sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-    sudo chown $(id -u):$(id -g) $HOME/.kube/config
-    ```
+        calico_rr:
+        hosts: {}
+```
+- helm 사용 예정이므로 `inventory/mycluster/group_vars/k8s_cluster/addons.yml` 파일 설정하여 helm 자동 설치되도록 변경
+    - helm_enabled: true 
+    - 위처럼 값 바꿔줄것
+
+### 4. Kubespray 설치 시작
+- `ansible-playbook -i inventory/mycluster/hosts.yaml cluster.yml -b -v` 명령으로 kubespray를 통환 쿠버네티스 클러스터 환경 구축 시작
+- 아래명령으로 kubectl 명령 사용가능 하도록 변경
+``` bash
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+```
+- `kubectl get nodes -o wide` 명령 사용하여 정상 설치 확인
