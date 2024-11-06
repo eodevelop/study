@@ -102,3 +102,5 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 - `kubectl get nodes -o wide` 명령 사용하여 정상 설치 확인
+
+> 네트워크 문제나 혹은 apt 문제로 중간에 실패하는 경우도 간혹 있으며 그떈 위 `ansible-playbook -i inventory/mycluster/hosts.yaml cluster.yml -b -v` 명령어를 재실행
