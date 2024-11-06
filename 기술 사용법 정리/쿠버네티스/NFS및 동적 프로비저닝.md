@@ -64,7 +64,7 @@ helm repo update
 ```bash
 helm install nfs-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner \
     --namespace nfs-provisioner \
-    --set nfs.server=172.18.8.4 \
+    --set nfs.server=172.18.8.104 \
     --set nfs.path=/mnt/nfs_share \
     --set storageClass.name=nfs-storage \
     --set storageClass.reclaimPolicy=Retain
