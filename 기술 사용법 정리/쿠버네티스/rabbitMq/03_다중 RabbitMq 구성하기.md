@@ -1,14 +1,13 @@
 ## 개요
 ### 전내용
 - [전내용 링크](./02_단일%20RabbitMq%20StatefulSet,PVC%20로%20변경하기%20.md)
-- 위 링크에서는 단일 RabbitMq를 구성하는 방법을 설명함.
+- deployment로 구성된 RabbitMq를 StatefulSet으로 변경하여 PVC를 통해 데이터를 보존할 수 있도록 함.
 ### 변경할 내용
-- 기존에 deployment 로 만들어서 pod가 새로 생성될 경우 queue의 데이터가 사라지는 문제가 있음.
-- 이를 해결하기 위해 StatefulSet을 사용하여 pod가 새로 생성되어도 PVC를 통해 데이터를 보존할 수 있도록 함.
+- 단일 Replica로 구성된 RabbitMq를 다중 Replica로 변경
 
 ## 순서
-### 1. yaml 파일 변경
-- 기존의 yaml 파일을 아래와 같이 변경
+### 1. StatefulSet 관련 yaml 파일 변경
+- 기존의 StatefulSet 용 yaml 파일을 아래와 같이 변경
 ``` yaml
 apiVersion: apps/v1
 kind: StatefulSet
@@ -16,7 +15,7 @@ metadata:
   name: rabbitmq
 spec:
   serviceName: "rabbitmq-service"
-  replicas: 1
+  replicas: 3                           # 필요에 따라 replica 수 설정
   selector:
     matchLabels:
       app: rabbitmq
@@ -27,11 +26,26 @@ spec:
     spec:
       containers:
       - name: rabbitmq
-        image: rabbitmq:3-management
+        image: rabbitmq:3-management     # RabbitMQ 관리 UI가 포함된 이미지
         ports:
-        - containerPort: 5672                   # AMQP 포트
-        - containerPort: 15672                  # 관리 UI 포트
+        - name: amqp
+          containerPort: 5672            # AMQP 포트
+        - name: management
+          containerPort: 15672           # 관리 UI 포트
         env:
+        - name: MY_POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: RABBITMQ_NODENAME
+          value: "rabbit@$(MY_POD_NAME)"
+        - name: RABBITMQ_USE_LONGNAME
+          value: "true"
+        - name: RABBITMQ_ERLANG_COOKIE
+          valueFrom:
+            configMapKeyRef:
+              name: rabbitmq-config
+              key: RABBITMQ_ERLANG_COOKIE
         - name: RABBITMQ_DEFAULT_USER
           valueFrom:
             configMapKeyRef:
@@ -44,7 +58,14 @@ spec:
               key: RABBITMQ_PASSWORD
         volumeMounts:
         - name: rabbitmq-data
-          mountPath: /var/lib/rabbitmq            # RabbitMQ 데이터 디렉터리
+          mountPath: /var/lib/rabbitmq   # RabbitMQ 데이터 디렉터리
+        - name: rabbitmq-config-file
+          mountPath: /etc/rabbitmq/rabbitmq.conf
+          subPath: rabbitmq.conf
+      volumes:
+        - name: rabbitmq-config-file
+          configMap:
+            name: rabbitmq-config-file
   volumeClaimTemplates:
   - metadata:
       name: rabbitmq-data
@@ -57,10 +78,27 @@ spec:
           storage: 1Gi
 ``` 
 - 차이점
-  - serviceName: "rabbitmq-service"
-    - 기존 deployment에서와는 달리 네트워크ID를 직접 명시하며 pod가 위 이름을 기준으로 생성됌.
-    - 또한 이를통해 인덱스와 생성순서들이 명확해짐
-  - volumeMounts
-    - volumeMounts를 통해서 PVC를 통해 데이터를 보존할 수 있도록 함.
-  - volumeClaimTemplates
-    - PVC를 생성하기 위한 설정
+  - replicas 가 1에서 3으로 변경
+  - ports의 이름을 amqp, management로 명시
+  - MY_POD_NAME 환경 변수 추가
+    - 각 RabbitMq 인스턴스가 고유한 이름을 가지게하여 클러스터 내에서 다른 인스턴스와 구별되게 한다.
+    - `MY_POD_NAME`: 환경 변수로, 현재 Pod의 고유 이름을 가져옵니다.
+    - `valueFrom`: Pod의 메타데이터에서 값을 가져오는 방식입니다.
+    - `fieldRef와 fieldPath`: metadata.name을 사용해 현재 Pod의 이름을 참조합니다. 예를 들어, rabbitmq-0, rabbitmq-1 등으로 자동 할당됩니다.
+  - RABBITMQ_NODENAME 환경 변수 추가
+    - RabbitMQ는 노드 이름을 기반으로 클러스터를 구성하므로, 이 설정은 클러스터 내에서 인스턴스 간의 충돌을 방지하고, 고유한 인스턴스로 인식되도록 합니다.
+    - `RABBITMQ_NODENAME`: RabbitMQ 노드 이름을 설정하는 환경 변수입니다.
+    - `값`: "rabbit@$(MY_POD_NAME)"로, MY_POD_NAME의 값이 동적으로 적용되어 각 Pod가 고유한 노드 이름을 가지도록 합니다. 예를 들어 rabbit@rabbitmq-0, rabbit@rabbitmq-1 등으로 설정됩니다.
+  - RABBITMQ_USE_LONGNAME 환경 변수 추가
+    - Kubernetes에서는 노드가 FQDN을 사용해 접근하므로, 이 설정은 RabbitMQ 인스턴스가 클러스터링 시 FQDN을 기반으로 통신하도록 설정하여, 노드 간 통신에 문제가 생기지 않도록 합니다.
+    - `RABBITMQ_USE_LONGNAME`: RabbitMQ가 FQDN을 사용해 통신하도록 설정하는 환경 변수입니다.
+  - RABBITMQ_ERLANG_COOKIE 환경 변수 추가
+    - RabbitMQ 클러스터의 각 인스턴스는 동일한 쿠키 값을 가져야 상호 신뢰를 바탕으로 클러스터를 형성할 수 있습니다. 이 쿠키 값이 다르면 인스턴스 간 연결이 거부됩니다.
+    - RABBITMQ_ERLANG_COOKIE: RabbitMQ 클러스터링을 위해 필요한 Erlang 쿠키 값입니다.
+    - ConfigMap rabbitmq-config에서 가져오며, RABBITMQ_ERLANG_COOKIE라는 키에 저장된 값을 사용합니다.
+      - 기존 ConfigMap 파일에 RABBITMQ_ERLANG_COOKIE 키를 추가하고, 쿠키 값을 설정합니다.
+  - rabbitmq-config-file 관련 설정
+    - 이 볼륨은 RabbitMQ 설정 파일을 저장하기 위해 사용됩니다.
+    - ConfigMap rabbitmq-config-file을 참조하여 생성되는 파드의 설정 파일인 /etc/rabbitmq/rabbitmq.conf 파일을 마운트합니다.
+
+## 해당 방식 살짝 문제 있는것 같아서 일단 보류
