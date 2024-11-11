@@ -101,4 +101,42 @@ spec:
     - 이 볼륨은 RabbitMQ 설정 파일을 저장하기 위해 사용됩니다.
     - ConfigMap rabbitmq-config-file을 참조하여 생성되는 파드의 설정 파일인 /etc/rabbitmq/rabbitmq.conf 파일을 마운트합니다.
 
+### 2.rabbitmq-config 관련 yaml 파일 변경
+```yaml 
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rabbitmq-config
+data:
+  RABBITMQ_HOST: rabbitmq-service
+  RABBITMQ_PORT: "5672"
+  RABBITMQ_USERNAME: guest
+  RABBITMQ_PASSWORD: guest
+  RABBITMQ_QUEUE: my-queue
+  RABBITMQ_ERLANG_COOKIE: "secretcookie"  # 클러스터 구성을 위해 사용될 쿠키 값
+  RABBITMQ_USE_LONGNAME: "true"               # StatefulSet의 이름 사용
+  RABBITMQ_NODENAME: "rabbit@$(MY_POD_NAME)"  # 노드 이름
+  RABBITMQ_CLUSTER_PARTITION_HANDLING: "autoheal"  # 클러스터 파티션 해결 설정
+```
+
+### 3. rabbitmq-config-file 관련 yaml 파일 생성
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rabbitmq-config-file
+data:
+  rabbitmq.conf: |
+    cluster_formation.peer_discovery_backend = k8s
+    cluster_formation.k8s.host = rabbitmq-service
+    cluster_formation.node_cleanup.interval = 10
+    cluster_formation.node_cleanup.only_log_warning = true
+    queue_master_locator = min-masters
+```
+
+
 ## 해당 방식 살짝 문제 있는것 같아서 일단 보류
+- 클러스터간의 통신 제대로 안됌
+- 계속해서 꺼졌다 켜졌다 반복됨 어디의 문제인지 찾아봐야 할듯
+- [RabbitMQ Cluster Kubernetes Operator Quickstart](https://www.rabbitmq.com/kubernetes/operator/quickstart-operator) 으로 다시 시도해볼 예정
+  - 해당 방식은 커스터마이징 문제가 좀 있을것 같아 테스트용으로만
