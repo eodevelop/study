@@ -9,13 +9,21 @@
 ### 1. StatefulSet 관련 yaml 파일 변경
 - 기존의 StatefulSet 용 yaml 파일을 아래와 같이 변경
 ``` yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: rabbitmq-erlang-cookie
+type: Opaque
+data:
+  .erlang.cookie: "bXlzZWNyZXRjb29raWV2YWx1ZQ=="
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: rabbitmq
 spec:
   serviceName: "rabbitmq-service"
-  replicas: 3                           # 필요에 따라 replica 수 설정
+  replicas: 2
   selector:
     matchLabels:
       app: rabbitmq
@@ -24,6 +32,16 @@ spec:
       labels:
         app: rabbitmq
     spec:
+      initContainers:
+      - name: init-rabbitmq
+        image: busybox
+        command: ['sh', '-c', 'cp /tmp/erlang.cookie /var/lib/rabbitmq/.erlang.cookie && chown 999:999 /var/lib/rabbitmq/.erlang.cookie && chmod 400 /var/lib/rabbitmq/.erlang.cookie']
+        volumeMounts:
+        - name: rabbitmq-data
+          mountPath: /var/lib/rabbitmq
+        - name: erlang-cookie
+          mountPath: /tmp/erlang.cookie
+          subPath: .erlang.cookie
       containers:
       - name: rabbitmq
         image: rabbitmq:3-management     # RabbitMQ 관리 UI가 포함된 이미지
@@ -41,11 +59,6 @@ spec:
           value: "rabbit@$(MY_POD_NAME)"
         - name: RABBITMQ_USE_LONGNAME
           value: "true"
-        - name: RABBITMQ_ERLANG_COOKIE
-          valueFrom:
-            configMapKeyRef:
-              name: rabbitmq-config
-              key: RABBITMQ_ERLANG_COOKIE
         - name: RABBITMQ_DEFAULT_USER
           valueFrom:
             configMapKeyRef:
@@ -58,7 +71,7 @@ spec:
               key: RABBITMQ_PASSWORD
         volumeMounts:
         - name: rabbitmq-data
-          mountPath: /var/lib/rabbitmq   # RabbitMQ 데이터 디렉터리
+          mountPath: /var/lib/rabbitmq
         - name: rabbitmq-config-file
           mountPath: /etc/rabbitmq/rabbitmq.conf
           subPath: rabbitmq.conf
@@ -66,6 +79,9 @@ spec:
         - name: rabbitmq-config-file
           configMap:
             name: rabbitmq-config-file
+        - name: erlang-cookie
+          secret:
+            secretName: rabbitmq-erlang-cookie
   volumeClaimTemplates:
   - metadata:
       name: rabbitmq-data
@@ -76,6 +92,25 @@ spec:
       resources:
         requests:
           storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq-service
+spec:
+  selector:
+    app: rabbitmq
+  ports:
+    - name: amqp                    # AMQP 포트 이름 추가
+      protocol: TCP
+      port: 5672                    # AMQP 포트, 내부 통신용
+      targetPort: 5672
+    - name: management               # 관리 UI 포트 이름 추가
+      protocol: TCP
+      port: 15672                   # 관리 UI 포트, 외부 접근용
+      targetPort: 15672
+      nodePort: 32003               # 외부에서 UI 접근을 위한 NodePort
+  type: NodePort                    # NodePort는 UI 접근만을 위해 설정
 ``` 
 - 차이점
   - replicas 가 1에서 3으로 변경
@@ -92,11 +127,6 @@ spec:
   - RABBITMQ_USE_LONGNAME 환경 변수 추가
     - Kubernetes에서는 노드가 FQDN을 사용해 접근하므로, 이 설정은 RabbitMQ 인스턴스가 클러스터링 시 FQDN을 기반으로 통신하도록 설정하여, 노드 간 통신에 문제가 생기지 않도록 합니다.
     - `RABBITMQ_USE_LONGNAME`: RabbitMQ가 FQDN을 사용해 통신하도록 설정하는 환경 변수입니다.
-  - RABBITMQ_ERLANG_COOKIE 환경 변수 추가
-    - RabbitMQ 클러스터의 각 인스턴스는 동일한 쿠키 값을 가져야 상호 신뢰를 바탕으로 클러스터를 형성할 수 있습니다. 이 쿠키 값이 다르면 인스턴스 간 연결이 거부됩니다.
-    - RABBITMQ_ERLANG_COOKIE: RabbitMQ 클러스터링을 위해 필요한 Erlang 쿠키 값입니다.
-    - ConfigMap rabbitmq-config에서 가져오며, RABBITMQ_ERLANG_COOKIE라는 키에 저장된 값을 사용합니다.
-      - 기존 ConfigMap 파일에 RABBITMQ_ERLANG_COOKIE 키를 추가하고, 쿠키 값을 설정합니다.
   - rabbitmq-config-file 관련 설정
     - 이 볼륨은 RabbitMQ 설정 파일을 저장하기 위해 사용됩니다.
     - ConfigMap rabbitmq-config-file을 참조하여 생성되는 파드의 설정 파일인 /etc/rabbitmq/rabbitmq.conf 파일을 마운트합니다.
@@ -113,10 +143,6 @@ data:
   RABBITMQ_USERNAME: guest
   RABBITMQ_PASSWORD: guest
   RABBITMQ_QUEUE: my-queue
-  RABBITMQ_ERLANG_COOKIE: "secretcookie"  # 클러스터 구성을 위해 사용될 쿠키 값
-  RABBITMQ_USE_LONGNAME: "true"               # StatefulSet의 이름 사용
-  RABBITMQ_NODENAME: "rabbit@$(MY_POD_NAME)"  # 노드 이름
-  RABBITMQ_CLUSTER_PARTITION_HANDLING: "autoheal"  # 클러스터 파티션 해결 설정
 ```
 
 ### 3. rabbitmq-config-file 관련 yaml 파일 생성
