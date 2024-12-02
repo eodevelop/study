@@ -188,6 +188,7 @@ export default App;
 ```
 
 ### 9. ESLint, Prettier 설정하기
+`해당 내용은 살짝 문제가 있어보이니 나중에 다시 적용하기`
 - 필요 패키지 설치
 ``` bash
 npm install --save-dev eslint prettier eslint-plugin-react eslint-plugin-react-hooks @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-config-prettier eslint-plugin-prettier
@@ -246,3 +247,6 @@ module.exports = {
 ```
 
 ### 10. 프로젝트 실행 및 확인
+```bash
+npm run dev
+```
