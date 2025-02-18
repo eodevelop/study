@@ -1,0 +1,66 @@
+{
+  "workbench.iconTheme": "a-file-icon-vscode",
+  "redhat.telemetry.enabled": true,
+  "git.autofetch": true,
+  "latex-workshop.view.pdf.invert": 0.9,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "cursor.cpp.disabledLanguages": ["plaintext", "scminput"],
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "workbench.colorTheme": "Dark Vue Theme",
+  "editor.tabSize": 2, // 탭 크기를 2로 설정
+  "editor.insertSpaces": true, // 탭 대신 공백 사용
+  "prettier.tabWidth": 2, // Prettier의 탭 크기 설정
+  "prettier.useTabs": false,
+  "git.confirmSync": false,
+  "workbench.activityBar.orientation": "vertical",
+  "workbench.tree.indent": 24, // Prettier에서 탭 대신 공백 사용
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit"
+  },
+  "editor.fontFamily": "'Fira Code', 'Malgun Gothic', monospace",
+  "editor.fontLigatures": true,
+  "editor.fontSize": 13,
+  "editor.inlayHints.fontFamily": "JetBrains Mono",
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "scope": [
+          "comment",
+          "keyword",
+          "storage",
+          "storage.type",
+          "entity.name.type",
+          "entity.name.class",
+          "entity.other.inherited-class"
+        ],
+        "settings": {
+          "fontStyle": ""
+        }
+      }
+    ]
+  },
+  "workbench.colorCustomizations": {
+    "editorInlayHint.background": "#5a3e2b",
+    "editorInlayHint.foreground": "#ffcc99",
+    "gitlens.trailingLineForegroundColor": "#ffd700b7"
+  },
+  "editor.inlayHints.enabled": "onUnlessPressed",
+  "inlineChat.lineNaturalLanguageHint": false,
+  "javascript.inlayHints.variableTypes.suppressWhenTypeMatchesName": false,
+  "typescript.inlayHints.enumMemberValues.enabled": true,
+  "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+  "typescript.inlayHints.parameterNames.enabled": "all",
+  "typescript.inlayHints.parameterTypes.enabled": true,
+  "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
+  "typescript.inlayHints.variableTypes.enabled": true,
+  "javascript.inlayHints.enumMemberValues.enabled": true,
+  "javascript.inlayHints.functionLikeReturnTypes.enabled": true,
+  "javascript.inlayHints.parameterNames.enabled": "all",
+  "javascript.inlayHints.parameterNames.suppressWhenArgumentMatchesName": false,
+  "javascript.inlayHints.parameterTypes.enabled": true,
+  "javascript.inlayHints.propertyDeclarationTypes.enabled": true
+}
