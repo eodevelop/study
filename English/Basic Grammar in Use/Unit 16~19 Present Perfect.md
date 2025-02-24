@@ -64,5 +64,3 @@
 - **예제**
   - _I lost my keys yesterday._ (어제 열쇠를 잃어버렸어. → 지금 찾았는지 모름)
   - _She finished her homework an hour ago._ (그녀는 한 시간 전에 숙제를 끝냈어.)
-
-✅ **현재완료는 ‘과거와 현재를 연결하는 개념’, 과거형은 ‘완전히 끝난 일’을 표현!**
