@@ -1,0 +1,46 @@
+# IntelliJ IDEA 주요 단축키 모음
+
+## 코드 탐색
+
+- `Ctrl + B` : 선언부로 이동
+- `Ctrl + Alt + B` : 구현부로 이동
+- `Alt + F7` : 사용처 찾기
+- `Ctrl + F12` : 파일 구조 보기
+- `Ctrl + H` : 타입 계층 구조 보기
+
+## 리팩토링
+
+- `Shift + F6` : 이름 변경
+- `Ctrl + Alt + L` : 코드 자동 정렬
+- `Ctrl + Alt + O` : import 문 최적화
+- `Ctrl + Alt + M` : 메서드 추출
+- `Ctrl + Alt + V` : 변수 추출
+- `Ctrl + Alt + C` : 상수 추출
+
+## 실행/디버깅
+
+- `Shift + F10` : 프로젝트 실행
+- `Shift + F9` : 디버그 모드로 실행
+- `F8` : 디버그 - 다음 라인
+- `F7` : 디버그 - 메서드 안으로
+- `Alt + F9` : 디버그 - 커서 위치까지 실행
+- `Ctrl + F8` : 브레이크포인트 설정/해제
+
+## 창 관리
+
+- `Alt + 1` : 프로젝트 창 열기/닫기
+- `Alt + 9` : 깃 창 열기
+- `Ctrl + Tab` : 최근 파일 목록
+- `Ctrl + E` : 최근 열었던 파일 목록
+
+## Git/VCS
+
+- `Ctrl + K` : 커밋
+- `Ctrl + Shift + K` : Push
+
+## 코드 생성
+
+- `Alt + Insert` : 생성자, Getter/Setter 등 생성
+- `Ctrl + O` : 메서드 오버라이드
+- `Ctrl + I` : 인터페이스 메서드 구현
+- `Ctrl + Alt + T` : try-catch 등 코드 감싸기
