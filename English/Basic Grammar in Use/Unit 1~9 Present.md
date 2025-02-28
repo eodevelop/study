@@ -55,10 +55,10 @@
 ## **6. I don't ... (현재형 부정문)**
 
 - **현재 습관, 일반 사실의 부정**
-- **주어 + don’t (doesn’t) + 동사 원형**
+- **주어 + don't (doesn't) + 동사 원형**
 - **예제**
-  - _I don’t like tea._
-  - _She doesn’t play soccer._
+  - _I don't like tea._
+  - _She doesn't play soccer._
 
 ---
 
@@ -81,13 +81,46 @@
 
 ---
 
-## **9. I have ... / I’ve got ... (현재 소유 표현)**
+## **9. I have ... / I've got ... (현재 소유 표현)**
 
 - **소유를 나타내는 두 가지 표현 (의미 동일)**
-- **I have + 명사 = I’ve got + 명사**
+- **I have + 명사 = I've got + 명사**
 - **예제**
-  - _I have a car._ = _I’ve got a car._
+
+  - _I have a car._ = _I've got a car._
+  - _She has two brothers._ = _She's got two brothers._
+  - _They have a big house._ = _They've got a big house._
+
 - **부정문**
-  - _I don’t have a car._ = _I haven’t got a car._
+
+  - _I don't have a car._ = _I haven't got a car._
+  - _She doesn't have time._ = _She hasn't got time._
+  - _We don't have enough money._ = _We haven't got enough money._
+
+- **의문문**
+
+  - _Do you have a pen?_ = _Have you got a pen?_
+  - _Does he have any children?_ = _Has he got any children?_
+
+- **have와 have got의 차이점**
+
+  - have got은 주로 영국 영어에서 더 자주 사용됨
+  - have는 미국 영어에서 더 일반적
+  - have got은 현재 상태만 표현 가능 (과거/미래 불가)
+  - have는 모든 시제에서 사용 가능
+
+- **have의 다양한 용법**
+
+  - 소유: _I have a new phone._ (새 전화기가 있다)
+  - 경험/행동: _I have breakfast at 7._ (아침을 7시에 먹는다)
+  - 관계: _I have three sisters._ (세 명의 자매가 있다)
+  - 특징: _She has blue eyes._ (그녀는 파란 눈을 가졌다)
+  - 질병: _I have a cold._ (감기에 걸렸다)
+
+- **주의사항**
+  - have got은 소유, 관계, 특징을 나타낼 때만 사용
+  - 일상 활동(먹다, 마시다 등)은 have만 사용
+    - _I have lunch at 12._ (O)
+    - _I've got lunch at 12._ (X)
 
 ---
