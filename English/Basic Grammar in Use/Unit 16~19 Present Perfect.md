@@ -5,15 +5,30 @@
 - **과거부터 지금까지의 경험을 물을 때 사용**
 - **Have/Has + 주어 + 과거분사(P.P)?**
 - **예제**
+
   - _Have you ever been to Japan?_ (일본에 가본 적 있나요?)
   - _Has she finished her homework?_ (그녀는 숙제를 끝냈나요?)
   - _Have they seen this movie?_ (그들은 이 영화를 본 적 있나요?)
+
+- **현재완료의 주요 용법**
+
+  - 경험: _I have visited Paris twice._ (파리를 두 번 방문한 적이 있다)
+  - 결과: _I have lost my keys._ (열쇠를 잃어버렸다 - 지금 없다)
+  - 완료: _She has just finished her work._ (그녀는 방금 일을 끝냈다)
+  - 지속: _We have lived here for ten years._ (우리는 여기서 10년 동안 살고 있다)
+
+- **자주 사용되는 표현**
+  - ever (지금까지): _Have you ever eaten sushi?_
+  - never (한 번도 ~않은): _I have never seen snow._
+  - just (방금): _They have just arrived._
+  - already (이미): _I have already done it._
+  - yet (아직, 벌써): _Has she finished yet?_ / _I haven't finished yet._
 
 ---
 
 ## **17. How long have you ... ? (현재완료 진행, 상태 지속)**
 
-- **‘얼마나 오랫동안 ~해왔나요?’라는 의미로 사용**
+- **'얼마나 오랫동안 ~해왔나요?'라는 의미로 사용**
 - **How long + have/has + 주어 + 과거분사(P.P)?**
 - **예제**
   - _How long have you lived here?_ (여기서 얼마나 오래 살았나요?)
@@ -62,5 +77,22 @@
 - **과거의 특정 시점에서 끝난 행동**
 - **과거형 동사 사용**
 - **예제**
+
   - _I lost my keys yesterday._ (어제 열쇠를 잃어버렸어. → 지금 찾았는지 모름)
   - _She finished her homework an hour ago._ (그녀는 한 시간 전에 숙제를 끝냈어.)
+
+- **현재완료와 단순과거 비교**
+
+  - 현재완료: 시간 언급 없음 또는 현재와 연결된 시간 표현
+    - _I have seen that movie._ (그 영화를 본 적이 있다)
+    - _I have seen that movie three times._ (그 영화를 세 번 봤다)
+  - 단순과거: 특정 과거 시점 언급
+    - _I saw that movie last week._ (지난주에 그 영화를 봤다)
+    - _I saw that movie in 2020._ (2020년에 그 영화를 봤다)
+
+- **현재완료 진행형 (have been doing)**
+  - 과거부터 현재까지 계속 진행 중인 행동
+  - have/has been + 동사ing
+  - 예제:
+    - _I have been learning English for five years._ (5년 동안 영어를 배우고 있다)
+    - _She has been working all day._ (그녀는 하루 종일 일하고 있다)
