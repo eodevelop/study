@@ -44,3 +44,7 @@
 - `Ctrl + O` : 메서드 오버라이드
 - `Ctrl + I` : 인터페이스 메서드 구현
 - `Ctrl + Alt + T` : try-catch 등 코드 감싸기
+
+- `Shift + Ctrl + A → Zen Mode` : 전체 화면 모드, 끌때도 똑같이
+- `Shift + Ctrl + A → Presentation Mode` : 프리젠테이션 모드, 끌때도 똑같이
+- `Ctrl + Shift + I` : 현재 커서 위치의 메서드, 클래스, 변수 정의를 미리보기
