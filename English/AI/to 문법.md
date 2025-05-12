@@ -51,14 +51,15 @@
 
 ### 예외 주의: 전치사 to + 동명사(ing)
 
-- 어려운 예외 – 전치사 to 뒤에 동사원형 X, 동명사 O
-- 일부 표현은 “to”가 전치사이므로 그 뒤에 반드시 동명사가 와야 합니다.
+- 특별한 예외 규칙 – 특정 표현에서는 전치사 to 뒤에 동사원형이 아닌 동명사(-ing)가 와야 합니다
+- 이는 전치사 to가 명사형태를 필요로 하기 때문이며, 여기서 동명사(-ing)는 명사 역할을 합니다
+- 주요 표현들인 'look forward to', 'be used to', 'be committed to'를 외워두면 도움이 됩니다
 
-| 표현            | 올바른 사용                                     |
-| --------------- | ----------------------------------------------- |
-| look forward to | ✅ I look forward **to meeting** you.           |
-| be used to      | ✅ She is used **to working** late.             |
-| be committed to | ✅ They are committed **to improving** quality. |
+| 표현                       | 올바른 사용                                     | 의미                    |
+| -------------------------- | ----------------------------------------------- | ----------------------- |
+| look forward to (기대하다) | ✅ I look forward **to meeting** you.           | 만나기를 기대한다       |
+| be used to (익숙하다)      | ✅ She is used **to working** late.             | 늦게 일하는 데 익숙하다 |
+| be committed to (전념하다) | ✅ They are committed **to improving** quality. | 품질 향상에 전념하다    |
 
 ## 전체 요약
 
